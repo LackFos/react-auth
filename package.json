@@ -2,10 +2,15 @@
   "name": "auth-react",
   "version": "1.0.0",
   "description": "Manual for react authentication & authorization",
-  "main": "",
-  "scripts": {
-    "test": ""
-  },
+  "main": "index.js",
+  "type": "module",
   "author": "LackFos",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "vite": "^5.2.11"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\" "
+  }
 }
