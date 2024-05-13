@@ -1,4 +1,5 @@
-import { useRoutes } from "react-router-dom";
+import { Outlet, useRoutes } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
@@ -8,25 +9,35 @@ import ProtectedRoute from "./ProtectedRoute";
 const AppRoutes = () => {
   return useRoutes([
     {
-      path: "/",
-      exact: true,
-      element: <Home />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/profile",
       element: (
-        <ProtectedRoute>
-          <Profile />
-        </ProtectedRoute>
+        <>
+          <Outlet />
+          <ToastContainer transition={Bounce} />
+        </>
       ),
-    },
-    {
-      path: "*",
-      element: <NotFound />,
+      children: [
+        {
+          path: "/",
+          exact: true,
+          element: <Home />,
+        },
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/profile",
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "*",
+          element: <NotFound />,
+        },
+      ],
     },
   ]);
 };

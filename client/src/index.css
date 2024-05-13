@@ -11,3 +11,9 @@ h1 {
   line-height: 40px;
   font-weight: bold;
 }
+
+.Toastify .Toastify__toast {
+  color: #111111;
+  font-size: 14px;
+  border-radius: 32px;
+}

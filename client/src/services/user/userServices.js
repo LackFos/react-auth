@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxios from "../../hooks/useAxios";
 import userKeys from ".";
+import usePromiseToast from "../../hooks/usePromiseToast";
 
 export const useGetProfile = () => {
   const axiosClient = useAxios();
@@ -18,8 +19,20 @@ export const useGetProfile = () => {
 export const useLogin = () => {
   const axiosClient = useAxios();
 
+  const toast = usePromiseToast();
+
   return useMutation({
-    mutationFn: (credentials) =>
-      axiosClient._post("/users/login", credentials, { withCredentials: true }),
+    mutationFn: (credentials) => {
+      toast.loading("Mencoba login");
+      return axiosClient._post("/users/login", credentials, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: ({ data }) => {
+      toast.update(data.message, "success");
+    },
+    onError: (error) => {
+      toast.update(error.response.data.message, "error");
+    },
   });
 };
