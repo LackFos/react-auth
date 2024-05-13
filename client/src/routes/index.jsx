@@ -1,8 +1,10 @@
 import { Outlet, useRoutes } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
+import RedirectIfLoggedIn from "./RedirectIfLoggedIn";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import Dashboard from "../pages/Dashboard";
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -12,7 +14,7 @@ const AppRoutes = () => {
       element: (
         <>
           <Outlet />
-          <ToastContainer transition={Bounce} />
+          <ToastContainer newestOnTop={true} transition={Bounce} />
         </>
       ),
       children: [
@@ -23,13 +25,25 @@ const AppRoutes = () => {
         },
         {
           path: "/login",
-          element: <Login />,
+          element: (
+            <RedirectIfLoggedIn to="/profile">
+              <Login />
+            </RedirectIfLoggedIn>
+          ),
         },
         {
           path: "/profile",
           element: (
-            <ProtectedRoute>
+            <ProtectedRoute roles={["user"]}>
               <Profile />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard",
+          element: (
+            <ProtectedRoute roles={["admin"]}>
+              <Dashboard />
             </ProtectedRoute>
           ),
         },

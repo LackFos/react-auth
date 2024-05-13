@@ -13,7 +13,6 @@ export const profile = async (req, res) => {
     }
 
     const user = await UserModel.findById(decodedToken.id);
-
     return responseHelper.returnOkResponse("User found", res, user);
   } catch (error) {
     next(error);

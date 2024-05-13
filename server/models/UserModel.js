@@ -22,10 +22,15 @@ const userSchema = mongoose.Schema({
     required: true,
     select: false,
   },
+  roles: {
+    type: [String],
+    enum: ["user", "admin"],
+    default: ["user"],
+  },
 });
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password") || this.isNew) return next();
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
 });
 
