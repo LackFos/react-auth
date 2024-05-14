@@ -5,6 +5,7 @@ import cookies from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
 import { connectToDatabase } from "./database.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import ExpressMongoSanitize from "express-mongo-sanitize";
 
 const app = express();
 connectToDatabase();
@@ -12,6 +13,7 @@ connectToDatabase();
 app.use(express.json());
 app.use(cookies());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(ExpressMongoSanitize());
 
 app.use("/api/v1/users", userRouter);
 

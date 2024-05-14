@@ -5,6 +5,7 @@ import { useGetProfile } from "../services/user/userServices";
 const ProtectedRoute = ({ roles, children }) => {
   const user = useGetProfile();
   const allowedRoles = new Set(roles);
+
   let isUserAllowed = false;
 
   if (user.data && user.data.roles) {
@@ -12,6 +13,7 @@ const ProtectedRoute = ({ roles, children }) => {
       if (allowedRoles.has(role)) isUserAllowed = true;
     });
   }
+
   if (user.isSuccess && isUserAllowed) {
     return children;
   }
